@@ -24,11 +24,14 @@ exports.register = function (req, res) {
   User.register(
     new User({ email: req.body.email, username: req.body.username }),
     req.body.password,
-    function (err, msg) {
+    function (err, user) {
       if (err) {
         res.send(err);
       } else {
-        res.send({ message: "Successful" });
+        res.status(200).json({ 
+          message: "Successful",
+          user: user
+        });
       }
     }
   );
