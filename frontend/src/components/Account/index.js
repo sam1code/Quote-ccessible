@@ -3,15 +3,43 @@ import './style.css';
 import {Link} from 'react-router-dom';
 import registerImage from './img/register.svg';
 import loginImage from './img/log.svg';
+import axios from 'axios';
 
 const Account = () => {
-    const [isSignUpMode, setIsSignUpMode] = useState(false)
+    const [isSignUpMode, setIsSignUpMode] = useState(true)
+    const [username, setUsername] = useState('')
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+
+    const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
     const handleSignUpMode = () => {
         isSignUpMode ? setIsSignUpMode(false) : setIsSignUpMode(true)
-        console.log("Clicked with val", isSignUpMode)
     }
 
+    const handleLogin = () => {
+        const data = {
+            username: username,
+            password: password
+        }
+        axios.post(BACKEND_URL + '/login', data).then(res => {
+            const token = res.data.token;
+            sessionStorage.setItem('token', token);
+            console.log("Is Logged IN :)")
+        }).catch(err=>{
+            console.log(err);
+        })
+    }
+    const handleRegister = () => {
+        const data = {
+            email: email,
+            username: username,
+            password: password
+        }
+        axios.post(BACKEND_URL + '/register', data).then((res) => {
+            console.log(res);
+        })
+    }
 
     return (
         <div className={"container" + (isSignUpMode ? " sign-up-mod" : '')}>
@@ -21,13 +49,13 @@ const Account = () => {
                     <h2 className="title">Sign in</h2>
                     <div className="input-field">
                     <i className="fas fa-user"></i>
-                    <input type="text" placeholder="Username" />
+                    <input type="text" placeholder="Username" onChange={e=> setUsername(e.target.value)} />
                     </div>
                     <div className="input-field">
                     <i className="fas fa-lock"></i>
-                    <input type="password" placeholder="Password" />
+                    <input type="password" placeholder="Password" onChange={e=> setPassword(e.target.value)} />
                     </div>
-                    <input type="submit" value="Login" className="btn solid" />
+                    <button className="btn solid" onClick={handleLogin}>Login</button>
                     <p className="social-text">Or Sign in with social platforms</p>
                     <div className="social-media">
                     <Link to="#" className="social-icon">
@@ -48,17 +76,17 @@ const Account = () => {
                     <h2 className="title">Sign up</h2>
                     <div className="input-field">
                     <i className="fas fa-user"></i>
-                    <input type="text" placeholder="Username" />
+                    <input type="text" placeholder="Username" onChange={e => {setUsername(e.target.value)}} />
                     </div>
                     <div className="input-field">
                     <i className="fas fa-envelope"></i>
-                    <input type="email" placeholder="Email" />
+                    <input type="email" placeholder="Email" onChange={e => {setEmail(e.target.value)}} />
                     </div>
                     <div className="input-field">
                     <i className="fas fa-lock"></i>
-                    <input type="password" placeholder="Password" />
+                    <input type="password" placeholder="Password" onChange={e => {setPassword(e.target.value)}} />
                     </div>
-                    <input type="submit" className="btn" value="Sign up" />
+                    <button className="btn" onClick={handleRegister}>Register</button>
                     <p className="social-text">Or Sign up with social platforms</p>
                     <div className="social-media">
                         <Link to="#" className="social-icon">
