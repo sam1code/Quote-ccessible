@@ -1,0 +1,27 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.bg{
+    background-image: url(bg.svg);
+    min-height: 100vh;
+    background-repeat: no-repeat;
+}
+.bg2{
+    background-image: url(bg2.svg);
+    min-height: 100vh;
+    background-repeat:no-repeat;
+    
+}
+.bg3{
+    background-image: url(bg3.svg);
+    min-height: 100vh;
+    background-repeat: repeat-x;
+}
+.bg4{
+    background-image: url(bg4.svg);
+    min-height: 100vh;
+    background-repeat: repeat-x;
+
+}
