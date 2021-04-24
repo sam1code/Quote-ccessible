@@ -1,7 +1,6 @@
 const express = require('express'),
 app = express(),
 authRoute = require("./routes/authRoute"),
-postRoute = require("./routes/postRoute"),
 quoteRoute = require("./routes/quoteRoute"),
 auth = require('./middleware/auth.js')(),
 mongoose = require("mongoose"),
@@ -28,7 +27,6 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 app.use(authRoute);
-app.use(postRoute);
 app.use(quoteRoute);
 
 

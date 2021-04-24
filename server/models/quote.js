@@ -2,14 +2,17 @@ const mongoose = require("mongoose");
 
 var quoteSchema = new mongoose.Schema({
     quote: {
-        type: String
+        type: String,
+        required: true
     },
     author: {
-        type: String
+        type: String,
+        default: ''
     },
     created_by: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
+        ref: 'User',
+        required: true
     },
     created_at: {
         type:Date,
