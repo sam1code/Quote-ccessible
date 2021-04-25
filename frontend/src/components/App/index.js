@@ -1,18 +1,13 @@
 import Account from "../Account";
 import Explore from "../Explore";
-import { Redirect, Route, Switch } from "react-router-dom";
-import { isAuthenticated } from "../auth";
+import { Route, Switch } from "react-router-dom";
 
 function App() {
   return (
     <div className="App">
       <Switch>
-        <Route exact path="/accounts">
-          <Account />
-        </Route>
-        <Route exact path="/">
-          <Explore />
-        </Route>
+        <Route exact path="/accounts" component={Account} />
+        <Route exact path="/" component={Explore} />
       </Switch>
     </div>
   );
