@@ -1,21 +1,19 @@
 import { useStoreActions, useStoreState } from "easy-peasy";
-import React, { useState } from "react";
+import React from "react";
 import { Link, Redirect } from "react-router-dom";
 import { isAuthenticated } from "../auth";
+import logo from "../Explore/png.png";
 
 const Navbar = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(
-    isAuthenticated() ? true : false
-  )
-  const isLogged = useStoreState(state => state.isLoggedIn)
+  const isLoggedIn = useStoreState((state) => state.isLoggedIn);
   const action = useStoreActions((action) => action.handleIsLoggedIn);
-
   const logout = () => {
-    localStorage.removeItem('token');
-    setIsLoggedIn(false);
-    action(false);
-    return <Redirect to="/" />
-  }
+    if(isAuthenticated()){
+      localStorage.removeItem("token");
+      action(false);
+      return <Redirect to="/" />;
+    }
+  };
   return (
     <header className="text-gray-600 body-font">
       <div className="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
@@ -25,7 +23,8 @@ const Navbar = () => {
             </svg> */}
           <Link to="/">
             <span className="ml-3 text-xl">
-              <b>Quote-ccessible</b>
+              <img className="logo" src={logo} alt="logo" />
+              <b>uote-ccessible</b>
             </span>
           </Link>
         </div>
@@ -39,13 +38,18 @@ const Navbar = () => {
           <Link to="/" className="mr-5 hover:text-gray-900">
             Refresh
           </Link>
-          {
-              !isLoggedIn ? <Link to="/accounts" className="mr-5 hover:text-gray-900">
+          {!isLoggedIn ? (
+            <Link to="/accounts" className="mr-5 hover:text-gray-900">
               Login | Register
-            </Link> : <div onClick={logout} className="mr-5 hover:text-gray-900 cursor-pointer">
+            </Link>
+          ) : (
+            <div
+              onClick={logout}
+              className="mr-5 hover:text-gray-900 cursor-pointer"
+            >
               Logout
-            </div> 
-          }
+            </div>
+          )}
         </nav>
       </div>
     </header>

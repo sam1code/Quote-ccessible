@@ -11,8 +11,7 @@ const Account = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const action = useStoreActions((action) => action.handleIsLoggedIn);
-  const isLogged = useStoreState(state => state.isLoggedIn);
+  const action = useStoreActions((action) => action.handleIsLoggedIn);  
   const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
   const handleSignUpMode = () => {

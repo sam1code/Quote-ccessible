@@ -34,6 +34,17 @@ exports.update_quote = (req, res) => {
         }
     );
 }
+exports.find_quote = (req, res) => {
+    Quote.findById(
+         req.params.quoteId,
+        (err, quote) => {
+            if (err) return res.status(400).json({ error: err });
+            if (!quote)
+            return res.status(400).json({ error: "No quote found with that ID" });
+            res.json({quote: quote});
+        }
+    );
+}
 
 exports.delete_quote = (req, res) => {
     Quote.findByIdAndDelete(
