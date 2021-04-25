@@ -4,14 +4,15 @@ import { Link, Redirect } from "react-router-dom";
 import registerImage from "./img/register.svg";
 import loginImage from "./img/log.svg";
 import axios from "axios";
-import {isAuthenticated} from '../auth';
+import { useStoreActions, useStoreState } from "easy-peasy";
 
 const Account = () => {
   const [isSignUpMode, setIsSignUpMode] = useState(true);
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  const action = useStoreActions((action) => action.handleIsLoggedIn);
+  const isLogged = useStoreState(state => state.isLoggedIn);
   const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
   const handleSignUpMode = () => {
@@ -29,9 +30,8 @@ const Account = () => {
       .then((res) => {
         const token = res.data.token;
         localStorage.setItem("token", token);
-        if(isAuthenticated()){
-          return <Redirect to="/" />
-        }
+        action(true);
+        return <Redirect to="/" />
       })
       .catch((err) => {
         alert("Something went wrong while logging the user, please try again");
@@ -58,8 +58,8 @@ const Account = () => {
         console.log("Error", err);
     });
   };
-
-  if(isAuthenticated()){
+  const isLoggedIn = useStoreState((state)=> state.isLoggedIn);
+  if(isLoggedIn){
     return <Redirect to="/" />
   }
 

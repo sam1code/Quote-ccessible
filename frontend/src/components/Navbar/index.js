@@ -1,8 +1,21 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import { useStoreActions, useStoreState } from "easy-peasy";
+import React, { useState } from "react";
+import { Link, Redirect } from "react-router-dom";
 import { isAuthenticated } from "../auth";
 
 const Navbar = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(
+    isAuthenticated() ? true : false
+  )
+  const isLogged = useStoreState(state => state.isLoggedIn)
+  const action = useStoreActions((action) => action.handleIsLoggedIn);
+
+  const logout = () => {
+    localStorage.removeItem('token');
+    setIsLoggedIn(false);
+    action(false);
+    return <Redirect to="/" />
+  }
   return (
     <header className="text-gray-600 body-font">
       <div className="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
@@ -27,11 +40,11 @@ const Navbar = () => {
             Refresh
           </Link>
           {
-              !isAuthenticated() ? <Link to="/accounts" className="mr-5 hover:text-gray-900">
+              !isLoggedIn ? <Link to="/accounts" className="mr-5 hover:text-gray-900">
               Login | Register
-            </Link> : <Link to="/logout" className="mr-5 hover:text-gray-900">
+            </Link> : <div onClick={logout} className="mr-5 hover:text-gray-900 cursor-pointer">
               Logout
-            </Link> 
+            </div> 
           }
         </nav>
       </div>
