@@ -3,6 +3,10 @@
     padding: 0;
     box-sizing: border-box;
 }
+.logo{
+    height: 20px;
+    display: inline-block;
+}
 .bg{
     /* background-image: url(./imgs/bg.svg); */
     min-height: 100vh;
